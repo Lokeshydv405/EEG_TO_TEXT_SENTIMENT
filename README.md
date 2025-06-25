@@ -1,79 +1,129 @@
----
+# 🧠 EEG-to-Text: Decoding Brain Activity into Natural Language
+
 <div align="center">
-  <a href="https://github.com/hamzaamrani/EEG-to-Text-Decoding/blob/main/overview.png">
-    <img src="overview.png" alt="Overview">
-  </a>
-
-  <h3 align="center">Deep Representation Learning for Open Vocabulary Electroencephalography-to-Text Decoding</h3>
-
+  <img src="overview.png" alt="Overview">
+  <h3 align="center">EEG-to-Text: Brain Signal Decoding using Deep Learning</h3>
   <p align="center">
-    <h> <b>Hamza Amrani</b>, Daniela Micucci, Paolo Napoletano</h>
-    <br />
-    <a href="mailto:hamza.amrani@unimib.it">hamza.amrani@unimib.it</a>,
-    <a href="mailto:daniela.micucci@unimib.it">daniela.micucci@unimib.it</a>,
-    <a href="mailto:paolo.napoletano@unimib.it">paolo.napoletano@unimib.it</a>
-
+    <b>Team Project | IIT Mandi</b><br/>
+    <b>Mentor:</b> Jyoti Nigam
   </p>
 </div>
 
-<div align="center">    
+---
 
+## 🧠 Abstract
 
-[![Paper](https://img.shields.io/badge/paper-arxiv.2312.09430-B31B1B.svg)](https://arxiv.org/abs/2312.09430)
-<!--
-ARXIV   
-[![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://arxiv.org)
--->
- 
-</div>
+We developed an EEG-to-Text model that translates brain signals into natural language using deep learning architectures. Trained on the ZuCo dataset, our model combines GRUs, GANs, and BERT-based transformers with sentiment analysis to improve decoding quality.
 
+The model achieved:
+- **BLEU-1**: 42.75% (+1.40%)
+- **ROUGE-1-F**: 33.28% (+2.59%)
+- **BERTScore-F**: 53.86% (+3.20%)
 
-<!-- ABSTRACT -->
-## Abstract
+Adding sentiment analysis boosted BERTScore and ROUGE by 1.02% and 0.56%, respectively, improving overall semantic consistency.
 
-Previous research has demonstrated the potential of using pre-trained language models for decoding open vocabulary Electroencephalography (EEG) signals captured through a non-invasive Brain-Computer Interface (BCI). However, the impact of embedding EEG signals in the context of language models and the effect of subjectivity, remain unexplored, leading to uncertainty about the best approach to enhance decoding performance. Additionally, current evaluation metrics used to assess decoding effectiveness are predominantly syntactic and do not provide insights into the comprehensibility of the decoded output for human understanding. We present an end-to-end architecture for non-invasive brain recordings that brings modern representational learning approaches to neuroscience. Our proposal introduces the following innovations: 1) an end-to-end deep learning architecture for open vocabulary EEG decoding, incorporating a subject-dependent representation learning module for raw EEG encoding, a BART language model, and a GPT-4 sentence refinement module; 2) a more comprehensive sentence-level evaluation metric based on the BERTScore; 3) an ablation study that analyses the contributions of each module within our proposal, providing valuable insights for future research. We evaluate our approach on two publicly available datasets, ZuCo v1.0 and v2.0, comprising EEG recordings of 30 subjects engaged in natural reading tasks. Our model achieves a BLEU-1 score of 42.75%, a ROUGE-1-F of 33.28%, and a BERTScore-F of 53.86%, achieving an increment over the previous state-of-the-art by 1.40%, 2.59%, and 3.20%, respectively.
+---
 
+## 🚀 Key Features
 
-<!-- ARCHITECTURE -->
-## Architecture
+- End-to-end EEG-to-Text decoding from raw signal
+- Sentiment-augmented neural language modeling
+- Trained on real EEG data from ZuCo v1.0 and v2.0
+- Reproducible pipeline for preprocessing, training, and evaluation
+
+---
+
+## 🧠 Techniques Used
+
+- GRU-based Sequence Modeling  
+- GAN-enhanced EEG Signal Generation  
+- Transformer Language Models (BERT)  
+- Sentiment-Guided Decoding  
+- BLEU, ROUGE, and BERTScore Evaluation  
+
+---
+
+## 🧪 Dataset
+
+We use the publicly available [ZuCo Dataset](https://osf.io/q3zws/), which contains EEG recordings from 30 subjects engaged in natural reading tasks.
+
+Folders:
+```
+/dataset/ZuCo/task1-SR/Matlab_files
+/dataset/ZuCo/task2-NR/Matlab_files
+/dataset/ZuCo/task3-TSR/Matlab_files
+/dataset/ZuCo/task2-NR-2.0/Matlab_files
+```
+
+---
+
+## 🏗️ Architecture
+
 <div align="center">
   <img src="architecture.png" alt="Architecture" width="85%">
 </div>
 
+---
 
-<!-- CODE -->
-## Code
+## 📦 Getting Started
 
-This repo is based on the [EEG-to-Text](https://github.com/MikeWangWZHL/EEG-To-Text) repository.
+### 1. Download ZuCo Dataset
 
-### Download ZuCo datasets
-- Download ZuCo v1.0 'Matlab files' for 'task1-SR','task2-NR','task3-TSR' from https://osf.io/q3zws/files/ under 'OSF Storage' root,  
-unzip and move all `.mat` files to `/dataset/ZuCo/task1-SR/Matlab_files`,`/dataset/ZuCo/task2-NR/Matlab_files`,`/dataset/ZuCo/task3-TSR/Matlab_files` respectively.
-- Download ZuCo v2.0 'Matlab files' for 'task1-NR' from https://osf.io/2urht/files/ under 'OSF Storage' root, unzip and move all `.mat` files to `/dataset/ZuCo/task2-NR-2.0/Matlab_files`.
+- ZuCo v1.0: Download 'Matlab files' for tasks SR, NR, TSR from [OSF v1.0](https://osf.io/q3zws/files/)  
+- ZuCo v2.0: Download task NR from [OSF v2.0](https://osf.io/2urht/files/)  
+- Extract `.mat` files into their corresponding folders.
 
-### Preprocess datasets
-run `bash ./scripts/prepare_dataset_raw.sh` to preprocess `.mat` files and prepare sentiment labels. 
+---
 
-For each task, all `.mat` files will be converted into one `.pickle` file stored in `/dataset/ZuCo/<task_name>/<task_name>-dataset.pickle`. 
+### 2. Preprocess EEG Data
 
-### Usage Example
-To train an EEG-To-Text decoding model, run `bash ./scripts/train_decoding_raw.sh`.
-
-To evaluate the trained EEG-To-Text decoding model from above, run `bash ./scripts/eval_decoding_raw.sh`.
-
-
-<!-- CITATION -->
-
-## Citation
-
+```bash
+bash ./scripts/prepare_dataset_raw.sh
 ```
-  @article{amrani2024deep,
-  title={Deep Representation Learning for Open Vocabulary Electroencephalography-to-Text Decoding},
-  author={Amrani, Hamza and Micucci, Daniela and Napoletano, Paolo},
-  journal={IEEE Journal of Biomedical and Health Informatics},
-  year={2024},
-  publisher={IEEE}
-}
 
+This script processes `.mat` files and generates `.pickle` datasets with sentiment labels.
+
+---
+
+### 3. Train Model
+
+```bash
+bash ./scripts/train_decoding_raw.sh
 ```
+
+---
+
+### 4. Evaluate Model
+
+```bash
+bash ./scripts/eval_decoding_raw.sh
+```
+
+---
+
+## 📈 Results
+
+| Metric        | Our Model | Previous SOTA | Improvement |
+|---------------|-----------|---------------|-------------|
+| BLEU-1        | 42.75%    | 41.35%        | +1.40%      |
+| ROUGE-1-F     | 33.28%    | 30.69%        | +2.59%      |
+| BERTScore-F   | 53.86%    | 50.66%        | +3.20%      |
+
+With sentiment analysis:
+- BERTScore-F ↑ **1.02%**
+- ROUGE-1-F ↑ **0.56%**
+
+---
+
+## 👨‍💻 Team
+
+- **Team Size**: 6  
+- **Mentor**: Jyoti Nigam  
+- Responsibilities:  
+  - Signal preprocessing  
+  - Deep learning architecture  
+  - Sentiment analysis module  
+  - Evaluation pipeline  
+
+---
 
